@@ -53,20 +53,20 @@ end = ')'
 
 
 def inline_image(img: str):
-    # find img from official ilograph icon lib
-    try:
-        with open('icons/'+img, 'br') as i:
-            format = img.split('.')[-1]
-            file = i.read()
-            body = base64.b64encode(file).decode('ascii')
-            imgs[img] = begin + headers[format] + body + end
-    except FileNotFoundError:
-        print('img not found', img)
-        pass
-    # find img from local path
-    pass
+    if not img:
+        return None  # Skip if img is None or empty
 
-    return None
+    # find img from official ilograph icon lib
+    try:
+        with open('icons/' + img, 'br') as i:
+            format = img.split('.')[-1]
+            file = i.read()
+            body = base64.b64encode(file).decode('ascii')
+            imgs[img] = begin + headers[format] + body + end
+    except FileNotFoundError:
+        print('img not found', img)
+
+    return None
 
 
 def inline_all_images(d: dict):

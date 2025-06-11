@@ -1,6 +1,7 @@
 import yaml
 import json
 import base64
+import sys
 
 
 def normalize_resources(resources):
@@ -52,20 +53,20 @@ end = ')'
 
 
 def inline_image(img: str):
-    # find img from official ilograph icon lib
-    try:
-        with open('icons/'+img, 'br') as i:
-            format = img.split('.')[-1]
-            file = i.read()
-            body = base64.b64encode(file).decode('ascii')
-            imgs[img] = begin + headers[format] + body + end
-    except FileNotFoundError:
-        print('img not found', img)
-        pass
-    # find img from local path
-    pass
+    if not img:
+        return None  # Skip if img is None or empty
 
-    return None
+    # find img from official ilograph icon lib
+    try:
+        with open('icons/' + img, 'br') as i:
+            format = img.split('.')[-1]
+            file = i.read()
+            body = base64.b64encode(file).decode('ascii')
+            imgs[img] = begin + headers[format] + body + end
+    except FileNotFoundError:
+        print('img not found', img)
+
+    return None
 
 
 def inline_all_images(d: dict):
@@ -99,7 +100,8 @@ def render(d, imgs):
 
 
 def main():
-    with open('simple.yaml', 'r', encoding='utf-8') as file:
+    yaml_file = sys.argv[1] if len(sys.argv) > 1 else 'simple.yaml'
+    with open(yaml_file, 'r') as file:
         d = yaml.safe_load(file)
     normalize_resources(d['resources'])
     normalize_perspectives(d['perspectives'])

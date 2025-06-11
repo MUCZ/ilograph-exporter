@@ -99,7 +99,7 @@ def render(d, imgs):
 
 
 def main():
-    with open('simple.yaml', 'r') as file:
+    with open('simple.yaml', 'r', encoding='utf-8') as file:
         d = yaml.safe_load(file)
     normalize_resources(d['resources'])
     normalize_perspectives(d['perspectives'])

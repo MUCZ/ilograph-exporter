@@ -101,7 +101,7 @@ def render(d, imgs):
 
 def main():
     yaml_file = sys.argv[1] if len(sys.argv) > 1 else 'simple.yaml'
-    with open('simple.yaml', 'r') as file:
+    with open(yaml_file, 'r') as file:
         d = yaml.safe_load(file)
     normalize_resources(d['resources'])
     normalize_perspectives(d['perspectives'])
